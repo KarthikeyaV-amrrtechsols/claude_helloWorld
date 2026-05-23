@@ -109,3 +109,20 @@ Single-page "API Calculator" — user enters two numbers, result is fetched from
 ## Next.js Version Note
 
 This project uses **Next.js 16**, which has breaking changes from prior versions. Before writing any Next.js-specific code, consult `frontend/node_modules/next/dist/docs/` for current APIs and conventions.
+
+---
+
+## Hello World API
+
+A `helloworld` Django app has been added to the backend.
+
+**Request flow:** `GET /api/hello/` → `config/urls.py` → `helloworld/urls.py` → `helloworld/views.HelloWorldView`
+
+- `helloworld/views.py` — `HelloWorldView` returns `{"apploud": "Hello World"}` on `GET`
+- `helloworld/urls.py` — mounts `HelloWorldView` at `hello/`
+
+**API contract:**
+```
+GET http://127.0.0.1:8000/api/hello/
+→ 200 {"apploud": "Hello World"}
+```
