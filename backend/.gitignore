@@ -1,0 +1,24 @@
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+
+# Virtual environment
+venv/
+.venv/
+
+# Django
+*.sqlite3
+*.log
+media/
+staticfiles/
+
+# Environment variables
+.env
+.env.*
+
+# Distribution / packaging
+*.egg-info/
+dist/
+build/
