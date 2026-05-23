@@ -17,8 +17,7 @@ const initialState: ApiState = {
   error: null,
 };
 
-// Replace this URL with your actual API endpoint
-const API_URL = "https://api.example.com/submit";
+const API_URL = "http://127.0.0.1:8000/api/sum/";
 
 export const callApi = createAsyncThunk(
   "api/callApi",

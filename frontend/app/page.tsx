@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { useRouter } from "next/navigation";
 import { useAppDispatch, useAppSelector } from "@/store/hooks";
 import { callApi, clearResult } from "@/store/apiSlice";
 
@@ -10,6 +11,7 @@ export default function Home() {
 
   const dispatch = useAppDispatch();
   const { result, loading, error } = useAppSelector((state) => state.api);
+  const router = useRouter();
 
   const handleSubmit = () => {
     dispatch(
@@ -26,35 +28,44 @@ export default function Home() {
     dispatch(clearResult());
   };
 
+  const sum = result !== null && typeof result === "object" && result !== null
+    ? (result as { result: number }).result
+    : null;
+
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-50">
-      <div className="w-full max-w-md bg-white rounded-2xl shadow-md p-8 flex flex-col gap-6">
-        <h1 className="text-2xl font-semibold text-gray-800">API Calculator</h1>
+    <div className="min-h-screen flex items-center justify-center bg-linear-to-br from-blue-50 to-indigo-100">
+      <div className="w-full max-w-md bg-white rounded-2xl shadow-lg p-8 flex flex-col gap-6">
+
+        <div className="flex items-center justify-between">
+          <h1 className="text-2xl font-bold text-gray-800">Calculator</h1>
+          <button
+            onClick={() => router.push("/hello")}
+            className="text-sm text-indigo-600 font-medium hover:text-indigo-800 border border-indigo-200 hover:border-indigo-400 px-3 py-1.5 rounded-lg transition-colors"
+          >
+            Hello World →
+          </button>
+        </div>
 
         <div className="flex flex-col gap-4">
           <div className="flex flex-col gap-1">
-            <label className="text-sm font-medium text-gray-600">
-              Number 1
-            </label>
+            <label className="text-sm font-medium text-gray-600">Number 1</label>
             <input
               type="number"
               value={number1}
               onChange={(e) => setNumber1(e.target.value)}
               placeholder="Enter first number"
-              className="border border-gray-300 rounded-lg px-4 py-2.5 text-gray-800 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+              className="border border-gray-300 rounded-lg px-4 py-2.5 text-gray-800 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
             />
           </div>
 
           <div className="flex flex-col gap-1">
-            <label className="text-sm font-medium text-gray-600">
-              Number 2
-            </label>
+            <label className="text-sm font-medium text-gray-600">Number 2</label>
             <input
               type="number"
               value={number2}
               onChange={(e) => setNumber2(e.target.value)}
               placeholder="Enter second number"
-              className="border border-gray-300 rounded-lg px-4 py-2.5 text-gray-800 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+              className="border border-gray-300 rounded-lg px-4 py-2.5 text-gray-800 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
             />
           </div>
         </div>
@@ -63,9 +74,9 @@ export default function Home() {
           <button
             onClick={handleSubmit}
             disabled={loading || number1 === "" || number2 === ""}
-            className="flex-1 bg-blue-600 text-white font-medium py-2.5 rounded-lg hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+            className="flex-1 bg-indigo-600 text-white font-semibold py-2.5 rounded-lg hover:bg-indigo-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
           >
-            {loading ? "Calling API..." : "Submit"}
+            {loading ? "Calculating..." : "Add Numbers"}
           </button>
           <button
             onClick={handleClear}
@@ -82,14 +93,13 @@ export default function Home() {
           </div>
         )}
 
-        {result !== null && !error && (
-          <div className="rounded-lg bg-green-50 border border-green-200 p-4">
-            <p className="text-sm font-medium text-green-700 mb-2">
-              API Response
+        {sum !== null && !error && (
+          <div className="rounded-2xl bg-linear-to-r from-indigo-500 to-blue-500 p-6 text-center text-white shadow-md">
+            <p className="text-sm font-medium opacity-80 mb-1">Result</p>
+            <p className="text-4xl font-bold tracking-tight">
+              Sum is {sum}
             </p>
-            <pre className="text-sm text-gray-800 whitespace-pre-wrap break-words">
-              {JSON.stringify(result, null, 2)}
-            </pre>
+            
           </div>
         )}
       </div>
